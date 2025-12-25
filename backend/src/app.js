@@ -34,6 +34,13 @@ app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/issues', issueRoutes);
 
+app.get('/', (req, res) => {
+    res.status(200).json({
+        success: true,
+        message: 'ApniSec Backend API is running'
+    });
+});
+
 // 404 handler
 app.use((req, res) => {
     res.status(404).json({
