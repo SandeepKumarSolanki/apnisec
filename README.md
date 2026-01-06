@@ -2,6 +2,7 @@
 
 A full-stack cybersecurity platform built with Node.js/Express backend (OOP architecture) and React frontend with TailwindCSS.
 
+<<<<<<< HEAD
 🌐 Live URLs
 
 Frontend (Deployed): https://frontend-apnisec.vercel.app
@@ -9,6 +10,10 @@ Frontend (Deployed): https://frontend-apnisec.vercel.app
 GitHub Repository: https://github.com/SandeepKumarSolanki/apnisec
 
 
+=======
+🌐 **Live Application:** https://frontend-apnisec.vercel.app  
+📦 **GitHub Repository:** https://github.com/SandeepKumarSolanki/apnisec  
+>>>>>>> b78bd9bb203e4bc3a482d548f61eea3041bb3fc6
 
 ![License](https://img.shields.io/badge/license-MIT-blue.svg)
 ![Node](https://img.shields.io/badge/node-%3E%3D18.0.0-brightgreen)
@@ -31,6 +36,28 @@ GitHub Repository: https://github.com/SandeepKumarSolanki/apnisec
 | Frontend | React 18, TailwindCSS, React Router |
 | Auth | JWT (jsonwebtoken), bcryptjs |
 | Email | Resend API |
+
+## 🚀 Live Deployment
+
+- **Frontend (Vercel):** https://frontend-apnisec.vercel.app  
+- **Backend:** Deployed with environment-based configuration  
+- **API Base URL:** `/api`
+
+---
+
+## 📈 SEO & Lighthouse Score
+
+The application has been optimized for search engines and accessibility.
+
+- ✅ **SEO Score:** **92% (Google Lighthouse)**
+- ✅ **Best Practices:** 100%
+- ✅ **Performance:** 83%
+- ✅ **Accessibility:** 73%
+
+> Lighthouse testing performed using **Chrome DevTools → Lighthouse (Production build)**.  
+> Screenshot included for assignment submission.
+
+---
 
 ## 🚀 Quick Start
 
