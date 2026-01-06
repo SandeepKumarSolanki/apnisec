@@ -65,8 +65,12 @@ class IssueService extends BaseService {
 
         // Send issue created email (don't await)
         if (user) {
-            this.emailService.sendIssueCreated(user, issue).catch(err => {
-                console.error('Failed to send issue created email:', err.message);
+            this.emailService.sendIssueCreated(user, issue).then(result => {
+                if (!result.success) {
+                    console.error('Failed to send issue created email:', result.error);
+                }
+            }).catch(err => {
+                console.error('Unexpected error sending issue created email:', err.message);
             });
         }
 

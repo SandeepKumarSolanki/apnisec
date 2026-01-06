@@ -5,45 +5,50 @@ const { Resend } = require('resend');
  * Handles all email operations using Resend
  */
 class EmailService {
-    constructor() {
-        if (!process.env.RESEND_API_KEY) {
-            throw new Error('RESEND_API_KEY is missing');
-        }
-        this.resend = new Resend(process.env.RESEND_API_KEY);
-        this.fromEmail = process.env.EMAIL_FROM || 'sandeepkusolanki@gmail.com';
+  constructor() {
+    if (!process.env.RESEND_API_KEY) {
+      throw new Error('RESEND_API_KEY is missing');
     }
+    this.resend = new Resend(process.env.RESEND_API_KEY);
+    this.fromEmail = process.env.EMAIL_FROM || 'onboarding@resend.dev';
+  }
 
-    /**
-     * Send email
-     * @param {Object} options - Email options
-     * @returns {Promise<Object>} Send result
-     */
-    async send(options) {
-        try {
-            const { to, subject, html, text } = options;
+  /**
+   * Send email
+   * @param {Object} options - Email options
+   * @returns {Promise<Object>} Send result
+   */
+  async send(options) {
+    try {
+      const { to, subject, html, text } = options;
 
-            const result = await this.resend.emails.send({
-                from: this.fromEmail,
-                to: Array.isArray(to) ? to : [to], 
-                subject,
-                html,
-                text: text || ' ', 
-            });
+      const { data, error } = await this.resend.emails.send({
+        from: this.fromEmail,
+        to: Array.isArray(to) ? to : [to],
+        subject,
+        html,
+        text: text || ' ',
+      });
 
-            return { success: true, data: result };
-        } catch (error) {
-            console.error('Email send error:', error.message);
-            return { success: false, error: error.message };
-        }
+      if (error) {
+        console.error('Email send error:', error);
+        return { success: false, error: error };
+      }
+
+      return { success: true, data };
+    } catch (error) {
+      console.error('Email send exception:', error.message);
+      return { success: false, error: error.message };
     }
+  }
 
-    /**
-     * Send welcome email
-     * @param {Object} user - User object
-     * @returns {Promise<Object>} Send result
-     */
-    async sendWelcome(user) {
-        const html = `
+  /**
+   * Send welcome email
+   * @param {Object} user - User object
+   * @returns {Promise<Object>} Send result
+   */
+  async sendWelcome(user) {
+    const html = `
       <!DOCTYPE html>
       <html>
       <head>
@@ -92,34 +97,34 @@ class EmailService {
       </html>
     `;
 
-        return await this.send({
-            to: user.email,
-            subject: 'Welcome to ApniSec - Your Cybersecurity Partner',
-            html
-        });
-    }
+    return await this.send({
+      to: user.email,
+      subject: 'Welcome to ApniSec - Your Cybersecurity Partner',
+      html
+    });
+  }
 
-    /**
-     * Send issue created notification
-     * @param {Object} user - User object
-     * @param {Object} issue - Issue object
-     * @returns {Promise<Object>} Send result
-     */
-    async sendIssueCreated(user, issue) {
-        const typeLabels = {
-            'cloud-security': 'Cloud Security',
-            'reteam-assessment': 'Reteam Assessment',
-            'vapt': 'VAPT'
-        };
+  /**
+   * Send issue created notification
+   * @param {Object} user - User object
+   * @param {Object} issue - Issue object
+   * @returns {Promise<Object>} Send result
+   */
+  async sendIssueCreated(user, issue) {
+    const typeLabels = {
+      'cloud-security': 'Cloud Security',
+      'reteam-assessment': 'Reteam Assessment',
+      'vapt': 'VAPT'
+    };
 
-        const priorityColors = {
-            low: '#4caf50',
-            medium: '#ff9800',
-            high: '#ff5722',
-            critical: '#f44336'
-        };
+    const priorityColors = {
+      low: '#4caf50',
+      medium: '#ff9800',
+      high: '#ff5722',
+      critical: '#f44336'
+    };
 
-        const html = `
+    const html = `
       <!DOCTYPE html>
       <html>
       <head>
@@ -167,21 +172,21 @@ class EmailService {
       </html>
     `;
 
-        return await this.send({
-            to: user.email,
-            subject: `Issue Created: ${issue.title} - ApniSec`,
-            html,
-            text: `Welcome to ApniSec, ${user.name}`
-        });
-    }
+    return await this.send({
+      to: user.email,
+      subject: `Issue Created: ${issue.title} - ApniSec`,
+      html,
+      text: `Welcome to ApniSec, ${user.name}`
+    });
+  }
 
-    /**
-     * Send profile updated notification
-     * @param {Object} user - User object
-     * @returns {Promise<Object>} Send result
-     */
-    async sendProfileUpdated(user) {
-        const html = `
+  /**
+   * Send profile updated notification
+   * @param {Object} user - User object
+   * @returns {Promise<Object>} Send result
+   */
+  async sendProfileUpdated(user) {
+    const html = `
       <!DOCTYPE html>
       <html>
       <head>
@@ -218,12 +223,12 @@ class EmailService {
       </html>
     `;
 
-        return await this.send({
-            to: user.email,
-            subject: 'Profile Updated - ApniSec',
-            html
-        });
-    }
+    return await this.send({
+      to: user.email,
+      subject: 'Profile Updated - ApniSec',
+      html
+    });
+  }
 }
 
 module.exports = EmailService;

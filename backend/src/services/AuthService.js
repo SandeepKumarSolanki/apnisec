@@ -44,8 +44,13 @@ class AuthService extends BaseService {
         const token = this.jwtUtil.generateAccessToken(user);
 
         // Send welcome email (don't await to avoid blocking)
-        this.emailService.sendWelcome(user).catch(err => {
-            console.error('Failed to send welcome email:', err.message);
+        // Send welcome email (don't await to avoid blocking)
+        this.emailService.sendWelcome(user).then(result => {
+            if (!result.success) {
+                console.error('Failed to send welcome email:', result.error);
+            }
+        }).catch(err => {
+            console.error('Unexpected error sending welcome email:', err.message);
         });
 
         return {

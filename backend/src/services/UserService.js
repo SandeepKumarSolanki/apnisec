@@ -44,8 +44,13 @@ class UserService extends BaseService {
         const updatedUser = await this.userRepository.updateProfile(userId, profileData);
 
         // Send profile updated email (don't await)
-        this.emailService.sendProfileUpdated(updatedUser).catch(err => {
-            console.error('Failed to send profile update email:', err.message);
+        // Send profile updated email (don't await)
+        this.emailService.sendProfileUpdated(updatedUser).then(result => {
+            if (!result.success) {
+                console.error('Failed to send profile update email:', result.error);
+            }
+        }).catch(err => {
+            console.error('Unexpected error sending profile update email:', err.message);
         });
 
         return updatedUser.toPublicJSON();

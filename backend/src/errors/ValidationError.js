@@ -6,7 +6,7 @@ const AppError = require('./AppError');
  */
 class ValidationError extends AppError {
     constructor(message, errors = []) {
-        super(message, 400);
+        super(message, 409);
         this.name = 'ValidationError';
         this.errors = errors;
     }

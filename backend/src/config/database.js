@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 class Database {
     constructor() {
-        this.uri = `${process.env.ATLAS_MONGODB_URI}/apnisec` || 'mongodb://localhost:27017/apnisec';
+        this.uri = `${process.env.ATLAS_MONGODB_URI}/apnisec`;
         this.isConnected = false;
     }
 

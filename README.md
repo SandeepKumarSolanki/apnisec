@@ -2,6 +2,14 @@
 
 A full-stack cybersecurity platform built with Node.js/Express backend (OOP architecture) and React frontend with TailwindCSS.
 
+🌐 Live URLs
+
+Frontend (Deployed): https://frontend-apnisec.vercel.app
+
+GitHub Repository: https://github.com/SandeepKumarSolanki/apnisec
+
+
+
 ![License](https://img.shields.io/badge/license-MIT-blue.svg)
 ![Node](https://img.shields.io/badge/node-%3E%3D18.0.0-brightgreen)
 ![React](https://img.shields.io/badge/react-18.2.0-61DAFB)
