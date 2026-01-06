@@ -70,6 +70,44 @@ class AuthHandler extends BaseHandler {
         const user = await this.authService.getCurrentUser(req.user.id);
         return this.success(res, { user }, 'User retrieved successfully');
     });
+
+    /**
+     * Forgot password
+     * POST /api/auth/forgot-password
+     */
+    forgotPassword = this.asyncHandler(async (req, res) => {
+        // Sanitize and validate input
+        const data = this.validator.sanitizeForgotPassword(req.body);
+        const validation = this.validator.validateForgotPassword(data);
+
+        if (!validation.isValid) {
+            throw new ValidationError('Validation failed', validation.errors);
+        }
+
+        // Send reset email
+        const result = await this.authService.forgotPassword(data.email);
+
+        return this.success(res, result, result.message);
+    });
+
+    /**
+     * Reset password
+     * POST /api/auth/reset-password
+     */
+    resetPassword = this.asyncHandler(async (req, res) => {
+        // Sanitize and validate input
+        const data = this.validator.sanitizeResetPassword(req.body);
+        const validation = this.validator.validateResetPassword(data);
+
+        if (!validation.isValid) {
+            throw new ValidationError('Validation failed', validation.errors);
+        }
+
+        // Reset password
+        const result = await this.authService.resetPassword(data.token, data.password);
+
+        return this.success(res, result, result.message);
+    });
 }
 
 module.exports = AuthHandler;

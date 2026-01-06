@@ -229,6 +229,65 @@ class EmailService {
       html
     });
   }
+
+  /**
+   * Send password reset email
+   * @param {Object} user - User object
+   * @param {String} resetToken - Password reset token
+   * @returns {Promise<Object>} Send result
+   */
+  async sendPasswordReset(user, resetToken) {
+    const resetUrl = `${process.env.FRONTEND_URL || 'http://localhost:5173'}/reset-password?token=${resetToken}`;
+
+    const html = `
+      <!DOCTYPE html>
+      <html>
+      <head>
+        <style>
+          body { font-family: 'Segoe UI', Arial, sans-serif; margin: 0; padding: 0; background: #0f0f0f; }
+          .container { max-width: 600px; margin: 0 auto; padding: 40px 20px; }
+          .header { text-align: center; padding: 30px 0; }
+          .logo { font-size: 32px; font-weight: bold; color: #00ff88; }
+          .content { background: #1a1a2e; border-radius: 12px; padding: 40px; color: #ffffff; }
+          .title { font-size: 24px; font-weight: 600; margin-bottom: 20px; color: #ffffff; }
+          .text { color: #a0a0a0; line-height: 1.6; font-size: 16px; }
+          .button { display: inline-block; background: linear-gradient(135deg, #00ff88, #00cc6a); color: #000000; text-decoration: none; padding: 14px 32px; border-radius: 8px; font-weight: 600; margin-top: 20px; }
+          .warning { color: #ff9800; font-size: 14px; margin-top: 20px; }
+          .footer { text-align: center; padding: 30px 0; color: #666666; font-size: 14px; }
+        </style>
+      </head>
+      <body>
+        <div class="container">
+          <div class="header">
+            <div class="logo">🛡️ ApniSec</div>
+          </div>
+          <div class="content">
+            <div class="title">Password Reset Request</div>
+            <p class="text">
+              Hi ${user.name}, we received a request to reset your password.
+            </p>
+            <p class="text">
+              Click the button below to reset your password:
+            </p>
+            <a href="${resetUrl}" class="button">Reset Password</a>
+            <p class="warning">
+              This link will expire in 1 hour. If you didn't request this, please ignore this email.
+            </p>
+          </div>
+          <div class="footer">
+            &copy; ${new Date().getFullYear()} ApniSec. All rights reserved.
+          </div>
+        </div>
+      </body>
+      </html>
+    `;
+
+    return await this.send({
+      to: user.email,
+      subject: 'Password Reset Request - ApniSec',
+      html
+    });
+  }
 }
 
 module.exports = EmailService;

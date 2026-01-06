@@ -80,6 +80,65 @@ class AuthValidator extends BaseValidator {
             password: data.password || ''
         };
     }
+
+    /**
+     * Validate forgot password data
+     * @param {Object} data - Forgot password data
+     * @returns {Object} Validation result
+     */
+    validateForgotPassword(data) {
+        this.reset();
+
+        // Email validation
+        if (this.required(data.email, 'email', 'Email')) {
+            this.email(data.email);
+        }
+
+        return this.getResult();
+    }
+
+    /**
+     * Validate reset password data
+     * @param {Object} data - Reset password data
+     * @returns {Object} Validation result
+     */
+    validateResetPassword(data) {
+        this.reset();
+
+        // Token validation
+        this.required(data.token, 'token', 'Reset token');
+
+        // Password validation
+        if (this.required(data.password, 'password', 'Password')) {
+            this.minLength(data.password, 6, 'password', 'Password');
+            this.maxLength(data.password, 128, 'password', 'Password');
+        }
+
+        return this.getResult();
+    }
+
+    /**
+     * Sanitize forgot password data
+     * @param {Object} data - Forgot password data
+     * @returns {Object} Sanitized data
+     */
+    sanitizeForgotPassword(data) {
+        return {
+            email: (data.email || '').toLowerCase().trim()
+        };
+    }
+
+    /**
+     * Sanitize reset password data
+     * @param {Object} data - Reset password data
+     * @returns {Object} Sanitized data
+     */
+    sanitizeResetPassword(data) {
+        return {
+            token: (data.token || '').trim(),
+            password: data.password || ''
+        };
+    }
 }
 
 module.exports = AuthValidator;

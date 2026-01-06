@@ -8,6 +8,8 @@ const authHandler = new AuthHandler();
 // Public routes
 router.post('/register', authHandler.register);
 router.post('/login', authHandler.login);
+router.post('/forgot-password', authHandler.forgotPassword);
+router.post('/reset-password', authHandler.resetPassword);
 
 // Protected routes
 router.post('/logout', authMiddleware, authHandler.logout);
